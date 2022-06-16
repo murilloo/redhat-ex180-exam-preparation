@@ -1,5 +1,5 @@
 FROM centos
-MAINTAINER Sander <mail@sandervanvugt.nl>
+MAINTAINER Murillo
 
 # Add repo file
 ADD ./sander.repo /etc/yum.repos.d/
