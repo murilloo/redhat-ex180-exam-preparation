@@ -1,0 +1,95 @@
+01)
+
+subscription-manager register 
+subscription-manager attach
+yum module install container-tools
+podman run -d bitnami/nginx
+
+02)
+
+podman login registry.access.redhat.com
+podman login registry.redhat.io
+skopeo inspect docker://registry.access.redhat.com/rhscl/mariadb-102-rhel7
+podman pull registry.access.redhat.com/rhscl/mariadb-102-rhel7
+podman image ls
+podman run -d registry.access.redhat.com/rhscl/mariadb-102-rhel7
+podman run -d -e MYSQL_ROOT_PASSWORD=password registry.access.redhat.com/rhscl/mariadb-102-rhel7
+podman exec -it a1cc0a04e28f bash
+
+03)
+
+podman run -d --name=mynginx bitnami/nginx
+podman exec -it mynginx bash
+   echo hello > /tmp/hello
+podman commit mynginx mynewnginx
+podman save mynewnginx > mynewnginx.tar
+podman rmi localhost/mynewnginx
+podman load -i mynewnginx.tar 
+podman run -d --name mynewnginx localhost/mynewnginx
+podman exec -it mynewnginx cat /tmp/hello
+
+04)
+
+mkdir /srv/mysql
+podman inspect registry.access.redhat.com/rhscl/mariadb-102-rhel7
+  * check user that starts the container
+chown -R 27:27 /srv/mysql/
+semanage fcontext -a -t container_file_t "/srv/mysql(/.*)?"
+restorecon -Rv /srv/mysql/
+podman run -d -p 30306:3306 -v /srv/mysql/:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=password registry.access.redhat.com/rhscl/mariadb-102-rhel7
+
+
+05)
+
+yum provides */ping
+yum provides */ip
+yum provides */ps
+podman search ubi | less
+podman build -t lab115 .
+podman run localhost/lab115
+
+
+06)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
