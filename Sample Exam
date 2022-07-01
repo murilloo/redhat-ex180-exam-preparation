@@ -51,45 +51,44 @@ podman run localhost/lab115
 
 06)
 
+eval $(crc oc-env)
+oc complention -h
+source <(oc completion  bash)
+oc new-project lab116
+oc new-app bitnami/nginx
+oc status
+oc get all
+oc describe pod <POD>
 
+07)
 
+oc new-project lab117
+oc create deployment newnginx --image=bitnami/nginx --dry-run=client -o yaml > newnginx.yaml
+oc create -f newnginx.yaml
+oc expose deploy newnginx --dry-run=client --port=8080 -o yaml >> newnginx.yaml
+oc expose deploy newnginx --port=8080
+oc expose svc newnginx --dry-run=client -o yaml >> newnginx.yaml
+ * edit yaml and add ... and --- before each resource
+oc delete -f newnginx.yaml 
 
+08)
 
+oc new-project 118
+oc new-app --template=mariadb-persistent -p MYSQL_USER=bob -p MYSQL_PASSWORD=secret -p MYSQL_DATABASE=books
 
+09)
 
+oc new-app php:7.3~https://github.com/murilloo/redhat-ex180-exam-preparation --context-dir=simpleapp --name simpleapp
+oc get all
+oc get builds
 
+10)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+oc create deployment my-dep --image=busybox
+oc describe pod my-dep
+oc delete deployment my-dep
+oc create deployment my-dep --image=busybox -- sleep 3600
+oc get all
 
 
 

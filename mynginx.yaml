@@ -1,0 +1,60 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: mynginx
+  name: mynginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mynginx
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: mynginx
+    spec:
+      containers:
+      - image: bitnami/nginx
+        name: nginx
+        resources: {}
+status: {}
+...
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: mynginx
+  name: mynginx
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: mynginx
+status:
+  loadBalancer: {}
+...
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  creationTimestamp: null
+  labels:
+    app: mynginx
+  name: mynginx
+spec:
+  port:
+    targetPort: 8080
+  to:
+    kind: ""
+    name: mynginx
+    weight: null
+status: {}

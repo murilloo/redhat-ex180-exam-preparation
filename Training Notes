@@ -1,0 +1,17 @@
+#MYSQL
+oc create secret generic mysql --from-literal=password=mypassword
+oc new-app --name mysql registry.access.redhat.com/rhscl/mysql-57-rhel7
+oc set env deployment mysql --prefix MYSQL_ROOT_ --from secret/mysql
+oc set volumes deployment/mysql --name mysql-pvc --add --type pvc --claim-size 1Gi --claim-mode rwo --mount-path /var/lib/mysql
+
+#WORDPRESS
+oc new-app --name=wordpress --image=bitnami/wordpress
+oc create cm wordpress-cm --from-literal=host=mysql --from-literal=name=wordpress --from-literal=user=root --from-literal=password=password 
+oc set env deploy wordpress --prefix WORDPRESS_DATABASE_ --from configmap/wordpress-cm
+oc expose svc/wordpress
+oc get routes
+
+#TEMPLATES
+oc get templates mysql-persistent -n openshift -o yaml
+oc process --parameters mariadb-persistent -n openshift
+oc new-app --template=mariadb-persistent -p MYSQL_USER=bob -p MYSQL_PASSWORD=secret -p MYSQL_DATABASE=books

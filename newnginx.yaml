@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: newnginx
+  name: newnginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: newnginx
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: newnginx
+    spec:
+      containers:
+      - image: bitnami/nginx
+        name: nginx
+        resources: {}
+status: {}
+...
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: newnginx
+  name: newnginx
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: newnginx
+status:
+  loadBalancer: {}
+...
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  creationTimestamp: null
+  labels:
+    app: newnginx
+  name: newnginx
+spec:
+  port:
+    targetPort: 8080
+  to:
+    kind: ""
+    name: newnginx
+    weight: null
+status: {}

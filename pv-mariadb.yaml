@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  annotations:
+    pv.kubernetes.io/bound-by-controller: "yes"
+  creationTimestamp: "2022-06-16T07:40:56Z"
+  finalizers:
+  - kubernetes.io/pv-protection
+  labels:
+    type: local
+  name: pv-mariadb
+  resourceVersion: "438438"
+  uid: f49a5345-3c82-4dfb-adf4-6184398631b8
+spec:
+  accessModes:
+  - ReadWriteOnce
+  capacity:
+    storage: 2Gi
+  claimRef:
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    name: pv-mariadb-claim
+    namespace: lesson8
+    resourceVersion: "438435"
+    uid: 7f20e4dd-4b74-4fe0-8341-652c95c7a17d
+  hostPath:
+    path: /mnt/mydata
+    type: ""
+  persistentVolumeReclaimPolicy: Retain
+  volumeMode: Filesystem
+status:
+  phase: Bound
